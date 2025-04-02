@@ -1,0 +1,18 @@
+<tool id="snr" name="SNR" version="1.0.0">
+    <description>
+        Tool designed to calculate the Signal-to-Noise Ratio (SNR) for medical images
+    </description>
+    <command interpreter="python">
+        ${__tool_directory__}/snr.py --input ${dcm} --output ${snr}
+    </command>
+    <requirements>
+        <requirement type="package" version="2.2.3">numpy</requirement>
+        <requirement type="package" version="3.0.1">pydicom</requirement>
+    </requirements>
+    <inputs>
+        <param name="dcm" type="data" multiple="true" label="DCM collection" help="The image to calculate the SNR" />
+    </inputs>
+    <outputs>
+        <data name="snr" format="txt" from_work_dir="outfile.txt" label="${tool.name} on ${on_string}: outfile.txt"/>
+    </outputs>
+</tool>

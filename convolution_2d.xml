@@ -1,0 +1,23 @@
+<tool id="convolution_2d" name="Convolution 2D" version="1.0.0">
+    <description>
+        2D Convolution is a tool designed to perform 2D convolution (image filtering)
+    </description>
+    <command><![CDATA[
+        #set $proper_names = ','.join([str(image.element_identifier) for image in $dcm_images])
+        python ${__tool_directory__}/convolution_2d.py --input ${dcm_images} --metadata "$proper_names"
+    ]]>
+    </command>
+    <requirements>
+        <requirement type="package" version="2.2.3">numpy</requirement>
+        <requirement type="package" version="3.0.1">pydicom</requirement>
+        <requirement type="package" version="4.11">opencv</requirement>
+    </requirements>
+    <inputs>
+        <param name="dcm_images" type="data" multiple="true" label="DCM collection" help="The image to perform 2D convolution" />
+    </inputs>
+    <outputs>
+        <collection name="list_output" type="list" label="Cleaned DCM">
+             <discover_datasets pattern="__name_and_ext__" directory="convolution_outputs" />
+        </collection>
+    </outputs>
+</tool>
