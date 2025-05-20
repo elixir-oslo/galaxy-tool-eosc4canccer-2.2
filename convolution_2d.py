@@ -125,6 +125,7 @@ def convolution_2d(
     path_output_folder: str
          Folder where to save the DICOM files
     """
+    print(f"Starting 2D convolution on {len(list_input_dicom_sorted)} DICOM files...")
     dicom_meta = pydicom.dcmread(list_input_dicom_sorted[0])
     elem_2 = dicom_meta.SeriesInstanceUID
     index_last_2 = elem_2.rfind(".")
@@ -133,6 +134,7 @@ def convolution_2d(
     )
 
     for i_dicom, path_dicom in enumerate(list_input_dicom_sorted):
+        print(f"Processing file {i_dicom + 1}/{len(list_input_dicom_sorted)}: {path_dicom}")
 
         dico = pydicom.dcmread(path_dicom)
 
@@ -170,8 +172,9 @@ def convolution_2d(
         new_path = os.path.join(path_output_folder, name_denoised)
         dico.save_as(new_path)
 
+        print(f"Saved denoised file to: {new_path}")
 
-            
+    print("2D convolution completed for all files.")
 
 
 def main():
@@ -194,6 +197,7 @@ def main():
     # Check if the output folder exists, if not create it
     if not os.path.exists(path_output_folder):
         os.makedirs(path_output_folder)
+        print(f"Created output folder: {path_output_folder}")
      
     if "," in path_input_files:
         path_input_files = path_input_files.split(",")
@@ -205,6 +209,8 @@ def main():
     for i in range(len(path_input_files)):
         dict_original_filenames[path_input_files[i]] = metadata_info[i]
         
+    print(f"Input files: {path_input_files}")
+    print(f"Metadata: {metadata_info}")
 
     try:        
         list_input_dicom_sorted = path_input_files
@@ -218,6 +224,7 @@ def main():
 
         kernel = np.ones((5, 5), vol_dtype) / 25
 
+        print("Starting 2D convolution process...")
         convolution_2d(
             list_input_dicom_sorted, vol_dims, vol_dtype, kernel, path_output_folder, dict_original_filenames
         )
