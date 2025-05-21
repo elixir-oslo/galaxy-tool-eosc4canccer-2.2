@@ -168,7 +168,11 @@ def convolution_2d(
         dico.PixelData = den_max.tobytes()
 
         # Construct the new file name for the denoised DICOM file
-        name_denoised = os.path.basename(dict_original_filenames[path_dicom]).replace(".dcm", "_denoised.dcm")
+        base_name = os.path.basename(dict_original_filenames[path_dicom])
+        if base_name.endswith(".dcm"):
+            name_denoised = base_name.replace(".dcm", "_denoised.dcm")
+        else:
+            name_denoised = base_name + "_denoised.dcm"
         new_path = os.path.join(path_output_folder, name_denoised)
         dico.save_as(new_path)
 
