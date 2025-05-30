@@ -17,7 +17,7 @@
     </inputs>
     <outputs>
         <collection name="list_output" type="list" label="${tool.name} on ${on_string}">
-             <discover_datasets pattern="__name_and_ext__" directory="convolution_outputs" />
+             <discover_datasets pattern="(?P&lt;designation&gt;.+\.dcm)" directory="convolution_outputs" />
         </collection>
     </outputs>
 </tool>
